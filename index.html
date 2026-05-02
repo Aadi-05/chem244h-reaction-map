@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CHEM244H Reaction Map</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://unpkg.com/@rdkit/rdkit/dist/RDKit_minimal.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="control-panel" aria-label="Reaction map controls">
+        <section class="brand-block">
+          <p class="eyebrow">CHEM244H</p>
+          <h1>Reaction Map</h1>
+          <p class="data-note" id="dataNote">Loading ontology data...</p>
+        </section>
+
+        <section class="search-block">
+          <label for="searchInput">Search</label>
+          <div class="search-row">
+            <input
+              id="searchInput"
+              type="search"
+              autocomplete="off"
+              placeholder="hydroboration, DIBAL, aldol, SN2..."
+            />
+            <button id="clearSearch" class="icon-button" type="button" title="Clear search" aria-label="Clear search">x</button>
+          </div>
+          <div id="searchResults" class="search-results" aria-live="polite"></div>
+        </section>
+
+        <section>
+          <div class="section-title">Chapter Filter</div>
+          <div id="chapterFilters" class="chapter-grid"></div>
+        </section>
+
+        <section>
+          <label for="functionalFilter">Functional Group</label>
+          <select id="functionalFilter"></select>
+        </section>
+
+        <section>
+          <label for="typeFilter">Reaction Type</label>
+          <select id="typeFilter"></select>
+        </section>
+
+        <section class="button-row">
+          <button id="clearFilters" type="button">Clear filters</button>
+        </section>
+
+        <section>
+          <div class="section-title">Legend</div>
+          <div id="legend" class="legend"></div>
+        </section>
+      </aside>
+
+      <section class="map-stage" aria-label="Zoomable reaction map">
+        <div class="map-toolbar">
+          <span id="visibleCount">0 reactions visible</span>
+          <span>Scroll to zoom, drag to pan</span>
+        </div>
+        <div class="canvas-search" id="canvasSearch">
+          <button id="openCanvasSearch" class="canvas-icon-button" type="button" title="Search functional groups" aria-label="Search functional groups">FG</button>
+          <div class="canvas-search-panel" id="canvasSearchPanel" hidden>
+            <input id="canvasFunctionalSearch" type="search" autocomplete="off" placeholder="Find a functional group..." />
+            <div id="canvasFunctionalResults" class="canvas-search-results" aria-live="polite"></div>
+          </div>
+        </div>
+        <button id="homeView" class="home-button" type="button" title="Fit map" aria-label="Fit map">Home</button>
+        <svg id="reactionMap" role="img" aria-label="Interactive map of organic chemistry reactions"></svg>
+        <div id="hoverLabel" class="hover-label" hidden></div>
+      </section>
+
+      <aside id="detailPanel" class="detail-panel" aria-label="Reaction details">
+        <button id="closePanel" class="icon-button close-button" type="button" aria-label="Close details">x</button>
+        <p class="eyebrow">Select a reaction</p>
+        <h2>Reaction details</h2>
+        <p class="empty-panel">Hover over arrows for quick labels. Click an arrow or search result to inspect the full mechanism.</p>
+      </aside>
+    </main>
+
+    <template id="nodeTemplate">
+      <div class="node-card">
+        <div class="structure-slot"></div>
+        <div class="node-name"></div>
+        <div class="node-formula"></div>
+      </div>
+    </template>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
